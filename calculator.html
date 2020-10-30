@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brython</title>
+
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython.min.js">
+  </script>
+
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython_stdlib.js">
+  </script>
+
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+    crossorigin="anonymous">
+
+</head>
+  <body onload="brython()">
+
+    <style>
+    body {
+        background-color: yellow;
+    }
+    </style>
+
+    <script type="text/python">
+
+      from browser import document
+
+      def calc(a, b, o):
+        d = { '+' : a+b,
+              '-' : a-b,
+              '*' : a*b,
+              '/' : a/b,
+              '%' : a%b
+            }
+
+        return f"{a}{o}{b}={d[o]}"
+
+      a = float(input('Enter first number : '))
+      b = float(input('Enter second number : '))
+      o = input('Enter the Operator : ')
+
+      document <= calc(a, b, o)
+
+    </script>
+  </body>
+</html>
