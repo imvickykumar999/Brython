@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.8.8/brython.js" integrity="sha256-rA89wPrTJJQFWJaZveKW8jpdmC3t5F9rRkPyBjz8G04=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.8.8/brython_stdlib.js" integrity="sha256-Gnrw9tIjrsXcZSCh/wos5Jrpn0bNVNFJuNJI9d71TDs=" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 25px;
+            padding: 30px;
+            line-height: 1.6;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 1px #ccc solid;
+      }
+
+      h2 {
+        margin-top: 20px;
+      }
+
+      button {
+        cursor: pointer;
+        display: block;
+        background: #333;
+        color: #fff;
+        border: 0;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin: 20px 0;
+      }
+
+      input[type="text"] {
+        border: 1px #ccc solid;
+        width: 300px;
+        padding: 4px;
+        height: 35px;
+        margin-top: 20px;
+      }
+
+      .card {
+        margin: 20px 0;
+        border: #ccc 1px solid;
+        padding: 20px;
+      }
+
+    </style>
+
+  <title>Morse Code Convertor</title>
+</head>
+
+<body onload="brython()">
+
+
+      <h1>Morse Code Convertor</h1>
+      <div id="output" class="card">Output</div>
+
+      <script type="text/python">
+
+        from browser import document
+
+        decrypted = [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                     'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+                     'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6',
+                     '7', '8', '9', '0', ',', '?', '(', ')', '!']
+
+        encrypted = ['/', '.-', '-...', '-.-.', '-..', '.', '..-.', '--.',
+                     '....', '..', '.---', '-.-', '.-..', '--', '-.', '---',
+                     '.--.', '--.-', '.-.', '...', '-', '..-', '...-', '.--',
+                     '-..-', '-.--', '--..', '.----', '..---', '...--', '....-',
+                     '.....', '-....', '--...', '---..', '----.', '-----', '--..--',
+                     '..--..', '-.--.', '-.--.-', '-.-.--']
+
+        morse_enc = dict(zip(decrypted, encrypted))
+        morse_dec = dict([(encrypted, decrypted) for decrypted,
+                          encrypted in morse_enc.items()])
+
+        test = input('Enter Morse Code or, Simple Text (or, just Press Ok/Enter for default entry) : ')
+        if test == '':
+            test = '-.. . -.- .... / .-.. .. -.-- .- / -.-. .... .- .-.. / -. .. -.- .- .-..'
+
+        test = test.replace("_", "-").upper()
+        test_list = test.split(' ')
+
+        decrypt = []
+        def convert(j):
+            for i in j:
+                try:
+                  decrypt.append((morse_enc[i]))
+                except:
+                  try:
+                    decrypt.append((morse_dec[i]))
+                  except:
+                    pass
+
+        if not any(ele in encrypted for ele in test_list):
+            box=[]
+            for i in test_list:
+                box.append(i+' ')
+            test_list = box
+
+            for j in test_list:
+                convert(j)
+                text = ' '.join(decrypt)
+        else:
+            convert(test_list)
+            text = ''.join(decrypt)
+
+        document['output'].text =  f'{text}'
+
+      </script>
+
+</body>
+</html>
